@@ -26,7 +26,7 @@ sidebar:
     cmake_usage: cmake
   api:
     core: 核心
-    overview: 字符编解码
+    overview: 学习笔记
     learnpython: Python笔记
     learnbase1: 程序员的自我休养笔记
     learngit: Git学习笔记
