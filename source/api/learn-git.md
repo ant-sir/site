@@ -305,6 +305,114 @@ $ git reset HEAD~1 -- welcome.txt
     6652a0dce6a5067732c00ef0a220810a7230655e
     ```
 
+### 版本范围表示法：git rev-list
+有的Git命令可以使用一个版本范围作为参数，命令`git rev-list`可以帮助研究Git的各种版本范围语法。
+![commit-tree-with-id](/img/commit-tree-with-id.png)
+
+- 一个提交ID实际上就可以代表一个版本列表。含义是：该版本开始的所有历史提交。
+    ```bash
+    $ git rev-list --oneline  A
+    8199323 Commit A: merge B with C.
+    0cd7f2e commit C.
+    776c5c9 Commit B: merge D with E and F
+    beb30ca Commit F: merge I with J
+    212efce Commit D: merge G with H
+    634836c commit I.
+    3252fcc commit J.
+    83be369 commit E.
+    2ab52ad commit H.
+    e80aa74 commit G.
+    ```
+- 两个或多个版本，相当于每个版本单独使用时指代的列表的并集。
+    ```bash
+    $ git rev-list --oneline  D  F
+    beb30ca Commit F: merge I with J
+    212efce Commit D: merge G with H
+    634836c commit I.
+    3252fcc commit J.
+    2ab52ad commit H.
+    e80aa74 commit G.
+    ```
+- 在一个版本前面加上符号（`^`）含义是取反，即排除这个版本及其历史版本。
+    ```bash
+    $ git rev-list --oneline  ^G D
+    212efce Commit D: merge G with H
+    2ab52ad commit H.
+    ```
+- 和上面等价的“点点”表示法。使用两个点连接两个版本，如`G..D`，就相当于`^G D`。
+    ```bash
+    $ git rev-list --oneline  G..D
+    212efce Commit D: merge G with H
+    2ab52ad commit H.
+    ```
+- 版本取反，参数的顺序不重要，但是“点点”表示法前后的版本顺序很重要。
+    + 语法：`^B C`
+    ```bash
+    $ git rev-list --oneline  ^B C
+    0cd7f2e commit C.
+    ```
+    + 语法：`C ^B`
+    ```bash
+    $ git rev-list --oneline  C ^B
+    0cd7f2e commit C.
+    ```
+    + 语法：`B..C`相当于`^B C`
+    ```bash
+    $ git rev-list --oneline  B..C
+    0cd7f2e commit C.
+    ```
+    + 语法：`C..B`相当于`^C B`
+    ```bash
+    $ git rev-list --oneline  C..B
+    776c5c9 Commit B: merge D with E and F
+    212efce Commit D: merge G with H
+    83be369 commit E.
+    2ab52ad commit H.
+    e80aa74 commit G.
+    ```
+- 三点表示法的含义是两个版本共同能够访问到的除外。  
+    B和C共同能够访问到的F、I、J排除在外。
+    ```bash
+    $ git rev-list --oneline  B...C
+    0cd7f2e commit C.
+    776c5c9 Commit B: merge D with E and F
+    212efce Commit D: merge G with H
+    83be369 commit E.
+    2ab52ad commit H.
+    e80aa74 commit G.
+    ```
+- 三点表示法，两个版本的前后顺序没有关系。  
+    实际上`r1...r2`相当于`r1 r2 --not $(git merge-base --all r1 r2)`，和顺序无关。
+    ```bash
+    $ git rev-list --oneline  C...B
+    0cd7f2e commit C.
+    776c5c9 Commit B: merge D with E and F
+    212efce Commit D: merge G with H
+    83be369 commit E.
+    2ab52ad commit H.
+    e80aa74 commit G.
+    ```
+- 某提交的历史提交，自身除外，用语法`r1^@`表示。
+    ```bash
+    $ git rev-list --oneline  B^@
+    beb30ca Commit F: merge I with J
+    212efce Commit D: merge G with H
+    634836c commit I.
+    3252fcc commit J.
+    83be369 commit E.
+    2ab52ad commit H.
+    e80aa74 commit G.
+    ```
+- 提交本身不包括其历史提交，用语法`r1^!`表示。
+    ```bash
+    $ git rev-list --oneline  B^!
+    776c5c9 Commit B: merge D with E and F
+
+    $ git rev-list --oneline  F^! D
+    beb30ca Commit F: merge I with J
+    212efce Commit D: merge G with H
+    2ab52ad commit H.
+    ```
 
 
 
