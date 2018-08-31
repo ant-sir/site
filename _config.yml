@@ -23,11 +23,9 @@ deploy:
 
 disqus_shortname: antsir
 google_analytics: UA-61377615-1
-fb_admins: 100000247608790
 algolia:
   zh-cn:
     api_key: 67a88d44602c73798fc38f7269ef7053
     index_name: iopencloud
-twitter: antcoder
 weibo: 5301170870
 github: ant-sir/site
