@@ -7,5 +7,7 @@ docs:
 api:
   core:
     overview: index.html
+  language:
     learnpython: learnpython.html
+  tools:
     learngit: learn-git.html

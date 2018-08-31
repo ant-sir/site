@@ -26,7 +26,9 @@ sidebar:
     google_repo: google repo
     cmake_usage: cmake
   api:
-    core: 核心
+    core: 基础
     overview: 自我休养笔记
+    language: 语言
     learnpython: Python笔记
+    tools: 工具
     learngit: Git学习笔记
