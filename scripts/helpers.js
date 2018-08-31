@@ -4,11 +4,13 @@
 
 var pathFn = require('path');
 var _ = require('lodash');
-var url = require('url');
+var moment = require('moment');
 var cheerio = require('cheerio');
 var lunr = require('lunr');
 
 var localizedPath = ['docs', 'api'];
+
+moment.locale('zh-cn');
 
 function startsWith(str, start) {
   return str.substring(0, start.length) === start;
