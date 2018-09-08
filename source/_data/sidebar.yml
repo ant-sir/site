@@ -11,3 +11,4 @@ api:
     learnpython: learnpython.html
   tools:
     learngit: learn-git.html
+    learnvim: learn-vim.html
