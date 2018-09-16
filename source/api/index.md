@@ -3,205 +3,104 @@ title: 《程序员的自我休养》笔记
 《程序员的自我休养》正如周星驰电影中的《演员的自我休养》一样，每个合格的程序员都应该认真的阅读至少二遍。
 <!--more-->
 
-gcc -E 预处理
-gcc -S 编译
-gcc -c 汇编
+## 翻译阶段
 
-objdump使用：
--h 打印段的基本信息
--x 打出所有段信息，打印更多
--d 把所有包含指令的段反汇编
--s 把所有段的内容以十六进制方式打印出来
+### 阶段 1
+1) 以实现定义方式，映射源文件（通常是以某种多字节，例如 UTF-8 编码的文本文件）的单独字节为源字符集的字符。特别是以换行字符替换依赖 OS 的行尾指示符。
 
+    __源字符集__ 是包含作为单字节子集的 __基本源字符集__ 的多字节字符集，后者由以下 96 个字符组成：
+
+    a) 5 个空白字符（空格、水平制表、垂直制表、换页、换行）
+
+    b) 10 个数字字符，从 `'0'` 到 `'9'`
+
+    c) 52 个字母，从 `'A'` 到 `'Z'` 以及从 `'a'` 到 `'z'`
+
+    d) 29 个标点字符： `_ { } [ ] # ( ) < > % : ; . ? * + - / ^ & | ~ ! = , \ " ’`
+
+2) 以对应的单字节表示替换三标符。
+
+### 阶段 2
+1) 凡在反斜杠出现于行尾（立即为换行符所后随）时，删除反斜杠和换行符，把二个物理源码行组合成一个逻辑源码行。这是单趟操作：以二个反斜杠结束，后随一个空行的行不会把三行组合为一。
+
+2) 若此步骤后，非空源文件不以换行符结束（无论是原本就无换行，还是以反斜杠结束），则行为未定义。
+
+### 阶段 3
+1) 将源文件分解为注释、空白字符（空格、水平制表、换行、垂直制表、换页）序列和下列预处理记号：
+    a) 头文件名： <stdio.h> 或 "myfile.h"
+
+    b) 标识符
+
+    c) 预处理数字，包括整数常量和浮点常量，但也包括一些非法记号，例如 1..E+3.foo 或 0JBK
+
+    d) 字符常量与字符串字面量
+
+    e) 运算符与标点，例如 + 、 <<= 、 <% 或 ## 。
+
+    f) 不属于任何其他类别的单独非空白字符
+
+2) 以一个空格字符替换每段注释
+
+3) 保持换行符。是否可将非换行的空白符序列缩减成单个空格字符是实现定义的。
+
+    若已经分析输入为到给定字符为止的预处理记号，则通常将能构成一个预处理记号的最长字符序列处理成下个预处理记号，即这会导致后继分析失败。这常被称为 __最大匹配__ (maximal munch) 。
+    ```c
+    int foo = 1;
+    int bar = 0xE+foo;   // 错误：非法的预处理数字 0xE+foo
+    int baz = 0xE + foo; // OK
+    
+    int quux = bar+++++baz; // 错误： bar++ ++ +baz ，而非 bar++ + ++baz 。
+    ```
+
+    __最大匹配__ 规则的单独例外是：
+
+    - 头文件名预处理记号仅在 `#include` 指令中和 `#pragma` 指令中的实现定义位置形成。
+    ```c
+    #define MACRO_1 1
+    #define MACRO_2 2
+    #define MACRO_3 3
+    #define MACRO_EXPR (MACRO_1 <MACRO_2> MACRO_3) // OK ： <MACRO_2> 不是头文件名
+    ```
+
+### 阶段 4
+1) 执行预处理器。
+2) `#include` 指令所引入的每个文件都经历阶段 1 到 4 ，递归执行。
+3) 此阶段结束时，从源码移除所有预处理器指令。
+
+### 阶段 5
+1) 将字符常量及字符串字面量中的所有字符及转义序列从源字符集转换成执行字符集（可为如 UTF-8 的多字节字符集，只要来自阶段 1 中所列的基本源字符集的所有 96 个字符拥有单字节表示）。若转义序列所指定的字符不是执行字符集的成员，则结果是实现定义的，但保证不是空（宽）字符。
+
+注意：某些实现中，能以命令行选项控制此阶段所进行的转换： gcc 和 clang 用 `-finput-charset` 指定源字符集的编码，用 `-fexec-charset` 和 `-fwide-exec-charset` 指定无编码前缀的 (C11 起)字符串字面量和字符常量中的执行字符集的编码。
+
+### 阶段 6
+连接相邻的字符串字面量。
+
+### 阶段 7
+发生编译：按照语法和语义分析记号，并将它们翻译成翻译单元。
+
+### 阶段 8
+发生链接：将翻译单元和满足外部引用所需的库组件到汇集成程序映像，它含有在其执行环境（操作系统）中执行所需的信息。
+
+
+以上过程使用的gcc命令如下：
 ```bash
-[zyl@localhost:test]$ objdump -h simple_section.o
-
-simple_section.o:     file format elf64-x86-64
-
-Sections:
-Idx Name          Size      VMA               LMA               File off  Algn
-  0 .text         00000055  0000000000000000  0000000000000000  00000040  2**0
-                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  1 .data         00000008  0000000000000000  0000000000000000  00000098  2**2
-                  CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000004  0000000000000000  0000000000000000  000000a0  2**2
-                  ALLOC
-  3 .rodata       00000004  0000000000000000  0000000000000000  000000a0  2**0
-                  CONTENTS, ALLOC, LOAD, READONLY, DATA
-  4 .comment      0000002d  0000000000000000  0000000000000000  000000a4  2**0
-                  CONTENTS, READONLY
-  5 .note.GNU-stack 00000000  0000000000000000  0000000000000000  000000d1  2**0
-                  CONTENTS, READONLY
-  6 .eh_frame     00000058  0000000000000000  0000000000000000  000000d8  2**3
-                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, DATA
-
-[zyl@localhost:test]$ objdump -s -d simple_section.o
-
-simple_section.o:     file format elf64-x86-64
-
-Contents of section .text:
- 0000 554889e5 4883ec10 897dfc8b 45fc89c6  UH..H....}..E...
- 0010 bf000000 00b80000 0000e800 00000090  ................
- 0020 c9c35548 89e54883 ec10c745 fc010000  ..UH..H....E....
- 0030 008b1500 0000008b 05000000 0001c28b  ................
- 0040 45fc01c2 8b45f801 d089c7e8 00000000  E....E..........
- 0050 8b45fcc9 c3                          .E...
-Contents of section .data:
- 0000 30000000 55000000                    0...U...
-Contents of section .rodata:
- 0000 25640a00                             %d..
-Contents of section .comment:
- 0000 00474343 3a202847 4e552920 382e312e  .GCC: (GNU) 8.1.
- 0010 31203230 31383037 31322028 52656420  1 20180712 (Red
- 0020 48617420 382e312e 312d3529 00        Hat 8.1.1-5).
-Contents of section .eh_frame:
- 0000 14000000 00000000 017a5200 01781001  .........zR..x..
- 0010 1b0c0708 90010000 1c000000 1c000000  ................
- 0020 00000000 22000000 00410e10 8602430d  ...."....A....C.
- 0030 065d0c07 08000000 1c000000 3c000000  .]..........<...
- 0040 00000000 33000000 00410e10 8602430d  ....3....A....C.
- 0050 066e0c07 08000000                    .n......
-
-Disassembly of section .text:
-
-0000000000000000 <func1>:
-   0:   55                      push   %rbp
-   1:   48 89 e5                mov    %rsp,%rbp
-   4:   48 83 ec 10             sub    $0x10,%rsp
-   8:   89 7d fc                mov    %edi,-0x4(%rbp)
-   b:   8b 45 fc                mov    -0x4(%rbp),%eax
-   e:   89 c6                   mov    %eax,%esi
-  10:   bf 00 00 00 00          mov    $0x0,%edi
-  15:   b8 00 00 00 00          mov    $0x0,%eax
-  1a:   e8 00 00 00 00          callq  1f <func1+0x1f>
-  1f:   90                      nop
-  20:   c9                      leaveq
-  21:   c3                      retq
-
-0000000000000022 <main>:
-  22:   55                      push   %rbp
-  23:   48 89 e5                mov    %rsp,%rbp
-  26:   48 83 ec 10             sub    $0x10,%rsp
-  2a:   c7 45 fc 01 00 00 00    movl   $0x1,-0x4(%rbp)
-  31:   8b 15 00 00 00 00       mov    0x0(%rip),%edx        # 37 <main+0x15>
-  37:   8b 05 00 00 00 00       mov    0x0(%rip),%eax        # 3d <main+0x1b>
-  3d:   01 c2                   add    %eax,%edx
-  3f:   8b 45 fc                mov    -0x4(%rbp),%eax
-  42:   01 c2                   add    %eax,%edx
-  44:   8b 45 f8                mov    -0x8(%rbp),%eax
-  47:   01 d0                   add    %edx,%eax
-  49:   89 c7                   mov    %eax,%edi
-  4b:   e8 00 00 00 00          callq  50 <main+0x2e>
-  50:   8b 45 fc                mov    -0x4(%rbp),%eax
-  53:   c9                      leaveq
-  54:   c3                      retq
-
-[zyl@localhost:test]$ objdump -x -s -d simple_section.o
-
-simple_section.o：     文件格式 elf64-x86-64
-simple_section.o
-体系结构：i386:x86-64，标志 0x00000011：
-HAS_RELOC, HAS_SYMS
-起始地址 0x0000000000000000
-
-节：
-Idx Name          Size      VMA               LMA               File off  Algn
-  0 .text         00000055  0000000000000000  0000000000000000  00000040  2**0
-                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  1 .data         00000008  0000000000000000  0000000000000000  00000098  2**2
-                  CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000004  0000000000000000  0000000000000000  000000a0  2**2
-                  ALLOC
-  3 .rodata       00000004  0000000000000000  0000000000000000  000000a0  2**0
-                  CONTENTS, ALLOC, LOAD, READONLY, DATA
-  4 .comment      0000002d  0000000000000000  0000000000000000  000000a4  2**0
-                  CONTENTS, READONLY
-  5 .note.GNU-stack 00000000  0000000000000000  0000000000000000  000000d1  2**0
-                  CONTENTS, READONLY
-  6 .eh_frame     00000058  0000000000000000  0000000000000000  000000d8  2**3
-                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, DATA
-SYMBOL TABLE:
-0000000000000000 l    df *ABS*	0000000000000000 simple_section.c
-0000000000000000 l    d  .text	0000000000000000 .text
-0000000000000000 l    d  .data	0000000000000000 .data
-0000000000000000 l    d  .bss	0000000000000000 .bss
-0000000000000000 l    d  .rodata	0000000000000000 .rodata
-0000000000000004 l     O .data	0000000000000004 static_var.1965
-0000000000000000 l     O .bss	0000000000000004 static_var2.1966
-0000000000000000 l    d  .note.GNU-stack	0000000000000000 .note.GNU-stack
-0000000000000000 l    d  .eh_frame	0000000000000000 .eh_frame
-0000000000000000 l    d  .comment	0000000000000000 .comment
-0000000000000000 g     O .data	0000000000000004 global_init_var
-0000000000000004       O *COM*	0000000000000004 global_uninit_var
-0000000000000000 g     F .text	0000000000000022 func1
-0000000000000000         *UND*	0000000000000000 printf
-0000000000000022 g     F .text	0000000000000033 main
-
-
-Contents of section .text:
- 0000 554889e5 4883ec10 897dfc8b 45fc89c6  UH..H....}..E...
- 0010 bf000000 00b80000 0000e800 00000090  ................
- 0020 c9c35548 89e54883 ec10c745 fc010000  ..UH..H....E....
- 0030 008b1500 0000008b 05000000 0001c28b  ................
- 0040 45fc01c2 8b45f801 d089c7e8 00000000  E....E..........
- 0050 8b45fcc9 c3                          .E...           
-Contents of section .data:
- 0000 30000000 55000000                    0...U...        
-Contents of section .rodata:
- 0000 25640a00                             %d..            
-Contents of section .comment:
- 0000 00474343 3a202847 4e552920 382e312e  .GCC: (GNU) 8.1.
- 0010 31203230 31383037 31322028 52656420  1 20180712 (Red 
- 0020 48617420 382e312e 312d3529 00        Hat 8.1.1-5).   
-Contents of section .eh_frame:
- 0000 14000000 00000000 017a5200 01781001  .........zR..x..
- 0010 1b0c0708 90010000 1c000000 1c000000  ................
- 0020 00000000 22000000 00410e10 8602430d  ...."....A....C.
- 0030 065d0c07 08000000 1c000000 3c000000  .]..........<...
- 0040 00000000 33000000 00410e10 8602430d  ....3....A....C.
- 0050 066e0c07 08000000                    .n......        
-
-Disassembly of section .text:
-
-0000000000000000 <func1>:
-   0:	55                   	push   %rbp
-   1:	48 89 e5             	mov    %rsp,%rbp
-   4:	48 83 ec 10          	sub    $0x10,%rsp
-   8:	89 7d fc             	mov    %edi,-0x4(%rbp)
-   b:	8b 45 fc             	mov    -0x4(%rbp),%eax
-   e:	89 c6                	mov    %eax,%esi
-  10:	bf 00 00 00 00       	mov    $0x0,%edi
-			11: R_X86_64_32	.rodata
-  15:	b8 00 00 00 00       	mov    $0x0,%eax
-  1a:	e8 00 00 00 00       	callq  1f <func1+0x1f>
-			1b: R_X86_64_PC32	printf-0x4
-  1f:	90                   	nop
-  20:	c9                   	leaveq 
-  21:	c3                   	retq   
-
-0000000000000022 <main>:
-  22:	55                   	push   %rbp
-  23:	48 89 e5             	mov    %rsp,%rbp
-  26:	48 83 ec 10          	sub    $0x10,%rsp
-  2a:	c7 45 fc 01 00 00 00 	movl   $0x1,-0x4(%rbp)
-  31:	8b 15 00 00 00 00    	mov    0x0(%rip),%edx        # 37 <main+0x15>
-			33: R_X86_64_PC32	.data
-  37:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 3d <main+0x1b>
-			39: R_X86_64_PC32	.bss-0x4
-  3d:	01 c2                	add    %eax,%edx
-  3f:	8b 45 fc             	mov    -0x4(%rbp),%eax
-  42:	01 c2                	add    %eax,%edx
-  44:	8b 45 f8             	mov    -0x8(%rbp),%eax
-  47:	01 d0                	add    %edx,%eax
-  49:	89 c7                	mov    %eax,%edi
-  4b:	e8 00 00 00 00       	callq  50 <main+0x2e>
-			4c: R_X86_64_PC32	func1-0x4
-  50:	8b 45 fc             	mov    -0x4(%rbp),%eax
-  53:	c9                   	leaveq 
-  54:	c3                   	retq 
-
+gcc -E  #预处理
+gcc -S  #编译
+gcc -c  #汇编
 ```
 
+## objdump 使用
+
+```bash
+用法：objdump <选项> <文件>
+ 显示来自目标 <文件> 的信息。
+  -h, --[section-]headers 打印section头
+  -x, --all-headers 打出所有段信息
+  -d, --disassemble 反汇编可执行段
+  -s, --full-contents 把所有段的内容以十六进制方式打印出来
+```
+
+## readelf 使用
 ```bash
 [zyl@localhost:~]$ readelf --help
 用法：readelf <选项> elf-文件
@@ -215,13 +114,15 @@ Disassembly of section .text:
      --sections          An alias for --section-headers
 ```
 
-弱符号强符号
-强弱符号是针对定义来说的。
-编译器默认函数和初始化了的全局变量为强符号，未初始化的全局变量为弱符号。
-使用 `__attribute__((weak))` 可以指定一个符号为弱符号。
+## 弱符号强符号
+1) 强弱符号是针对定义来说的。
 
-弱引用强引用
-对外部目标文件中符号的引用在目标文件最终被链接成可执行文件时，它们必须被正确决议。如果没有找到就报链接错误。这种被称为强引用。
-与之相对应的还有一种弱引用，在处理弱引用时，如果该符号有定义则链接时决议该符号，如果该符号未定义，则链接时不报错。
-使用 `__attribute__((weakref))` 声明一个弱引用。
+2) 编译器默认函数和初始化了的全局变量为强符号，未初始化的全局变量为弱符号。
+
+3) 使用 `__attribute__((weak))` 可以指定一个符号为弱符号。
+
+## 弱引用强引用
+1) 对外部目标文件中符号的引用在目标文件最终被链接成可执行文件时，它们必须被正确决议。如果没有找到就报链接错误。这种被称为强引用。
+2) 与之相对应的还有一种弱引用，在处理弱引用时，如果该符号有定义则链接时决议该符号，如果该符号未定义，则链接时不报错。
+3) 使用 `__attribute__((weakref))` 声明一个弱引用。
 
