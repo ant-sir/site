@@ -1,6 +1,4 @@
 main: /
-docs: /docs/
-api: /api/
-news: /news/
-plugins: /plugins/
-themes: /themes/
+categories: /categories/
+archives: /archives/
+about: /about/

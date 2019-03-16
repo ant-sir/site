@@ -6,8 +6,8 @@
         <a href="https://github.com/{{ config.github }}" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
       </li>
     </ul>
-    {% if page.layout == 'page' %}
-      {{ doc_sidebar('mobile-nav') }}
+    {% if page.layout == 'post' %}
+      {{ categories_sidebar('mobile-nav') }}
     {% endif %}
   </div>
   <div id="mobile-lang-select-wrap">

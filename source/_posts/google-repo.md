@@ -1,9 +1,17 @@
-title: Google Repo
 ---
-[Android](https://source.android.com/)的所有源代码都放在[Google](https://source.android.com/source/using-repo)的Git仓库中。需要使用[Google](https://source.android.com/source/using-repo)开发的Repo工具进行下载管理。
+title: Google Repo
+date: 2014-05-03
+categories:
+  - 工具使用
+tags:
+  - repo
+---
+repo是Google用来管理Android源代码的工具。
 <!--more-->
 
 # 从Android说起
+[Android](https://source.android.com/)的所有源代码都放在[Google](https://source.android.com/source/using-repo)的Git仓库中。需要使用[Google](https://source.android.com/source/using-repo)开发的Repo工具进行下载管理。
+
 ## AOSP的组成
 AOSP([Android](https://source.android.com/)项目库)最主要由三种类型的仓库组成，repo库，manifest库，android项目子库。
 

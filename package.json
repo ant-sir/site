@@ -3,25 +3,24 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.7.1"
+    "version": "3.8.0"
   },
   "scripts": {
     "build": "hexo generate",
+    "eslint": "eslint .",
     "deploy": "hexo deploy"
   },
   "dependencies": {
-    "cheerio": "^0.20.0",
+    "cheerio": "^0.22.0",
+    "eslint": "^5.15.2",
     "hexo": "github:hexojs/hexo",
-    "hexo-deployer-git": "^0.3.1",
-    "hexo-generator-archive": "^0.1.4",
+    "hexo-deployer-git": "^1.0.0",
     "hexo-generator-feed": "^1.1.0",
     "hexo-generator-sitemap": "^1.1.2",
-    "hexo-renderer-jade": "^0.4.1",
-    "hexo-renderer-marked": "^0.3.0",
+    "hexo-renderer-marked": "^0.3.2",
     "hexo-renderer-stylus": "^0.3.1",
-    "hexo-server": "^0.2.0",
-    "lodash": "^4.5.1",
-    "lunr": "^2.3.1",
-    "moment": "^2.22.2"
+    "hexo-server": "^0.3.3",
+    "lodash": "^4.17.11",
+    "lunr": "2.3.6"
   }
 }

@@ -1,8 +1,10 @@
-title: 欢迎
+---
+layout: page
+title: 关于本站
+date: 2013-05-07
 ---
 
 该网站是从[Tommy Chen](https://zespia.tw/)的[Hexo.io](https://hexo.io)修改而来。
-<!--more-->
 
 ## 什么是 Hexo？
 

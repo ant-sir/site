@@ -1,8 +1,8 @@
-{% set page.title = 'News' %}
+{% set page.title = 'Archives' %}
 <div id="content-wrap">
   <div class="wrapper">
     <div class="inner">
-      {% for post in page.posts %}
+      {% for post in site.posts.sort('date', 'desc') %}
         {% if loop.index == 1 %}
           {{ partial('partial/post', {post: post}) }}
         {% else %}

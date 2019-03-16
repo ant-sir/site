@@ -1,4 +1,10 @@
+---
 title: CMAKE使用
+date: 2014-03-07
+categories:
+  - 工具使用
+tags:
+  - cmake
 ---
 使用CMake很简单，通过在每个目录下创建一个或多个CMakeLists文件来编译进程处理整个项目。CMakeLists文件包含CMake语言对项目的描述，CMake语言由一系列的命令组成。
 <!--more-->

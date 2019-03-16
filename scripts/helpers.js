@@ -4,35 +4,35 @@
 
 var pathFn = require('path');
 var _ = require('lodash');
-var moment = require('moment');
 var cheerio = require('cheerio');
 var lunr = require('lunr');
 
-var localizedPath = ['docs', 'api'];
-
-moment.locale('zh-cn');
 
 function startsWith(str, start) {
   return str.substring(0, start.length) === start;
 }
 
 hexo.extend.helper.register('page_nav', function() {
-  var type = this.page.canonical_path.split('/')[0];
-  var sidebar = this.site.data.sidebar[type];
-  var path = pathFn.basename(this.path);
+  var path = this.url_for(pathFn.dirname(this.path) + '/');
   var list = {};
-  var prefix = 'sidebar.' + type + '.';
-
-  for (var i in sidebar) {
-    for (var j in sidebar[i]) {
-      list[sidebar[i][j]] = j;
+  var self = this;
+  var prefix = '';
+  
+  _.each(this.site.pages.data, function(page) {
+    if (pathFn.dirname(page.path) === 'categories') {
+      list[self.url_for(pathFn.dirname(page.path) + '/')] = page.title;
     }
-  }
+  });
 
+  _.each(this.site.posts.data, function(post){
+    list[self.url_for(post.path)] = post.title;
+  });
+
+  console.log(list);
   var keys = Object.keys(list);
   var index = keys.indexOf(path);
   var result = '';
-
+  console.log(keys, path, index);
   if (index > 0) {
     result += '<a href="' + keys[index - 1] + '" class="article-footer-prev" title="' + this.__(prefix + list[keys[index - 1]]) + '">'
       + '<i class="fa fa-chevron-left"></i><span>' + this.__('page.prev') + '</span></a>';
@@ -46,25 +46,45 @@ hexo.extend.helper.register('page_nav', function() {
   return result;
 });
 
-hexo.extend.helper.register('doc_sidebar', function(className) {
-  var type = this.page.canonical_path.split('/')[0];
-  var sidebar = this.site.data.sidebar[type];
-  var path = pathFn.basename(this.path);
+hexo.extend.helper.register('categories_sidebar', function(className) {
+  var path = pathFn.dirname(this.path);
   var result = '';
   var self = this;
-  var prefix = 'sidebar.' + type + '.';
+  var categories = new Map();
+  var path_r = this.page.path;
 
-  _.each(sidebar, function(menu, title) {
-    result += '<strong class="' + className + '-title">' + self.__(prefix + title) + '</strong>';
+  _.each(this.site.pages.data, function(page) {
+    if (pathFn.dirname(page.path) === 'categories') {
+      var welcome = '<strong class="' + className + '-title">' + page.title + '</strong>';
+      if (pathFn.dirname(path_r) === path) {
+        welcome += '<a href="' + '/categories' + '" class="' + className + '-link' + ' current' + '">' + page.title + '</a>';
+      }
+      else {
+        welcome += '<a href="' + '/categories' + '" class="' + className + '-link' + '">' + page.title + '</a>';
+      }
+      categories.set(page.title, welcome);
+    }
+  });
 
-    _.each(menu, function(link, text) {
-      var itemClass = className + '-link';
-      if (link === path) itemClass += ' current';
+  _.each(this.site.categories.data, function(categorie){
+    categories.set(categorie.name, '<strong class="' + className + '-title">' + categorie.name + '</strong>');
+  });
 
-      result += '<a href="' + link + '" class="' + itemClass + '">' + self.__(prefix + text) + '</a>';
+  _.each(this.site.posts.data, function(post){
+    var itemClass = className + '-link';
+    if (post.path.slice(0, -1) === path) itemClass += ' current';
+
+    _.each(post.categories.data, function(categorie){
+      var value = categories.get(categorie.name);
+      value += '<a href="' + self.url_for(post.path) + '" class="' + itemClass + '">' + post.title + '</a>';
+      categories.set(categorie.name, value);
     });
   });
 
+  for (var categorie of categories.values()) {
+    result += categorie;
+  }
+  
   return result;
 });
 
@@ -76,7 +96,7 @@ hexo.extend.helper.register('header_menu', function(className) {
   var isChinese = lang === 'zh-cn';
 
   _.each(menu, function(path, title) {
-    if (!isChinese && ~localizedPath.indexOf(title)) path = lang + path;
+    if (!isChinese) path = lang + path;
 
     result += '<a href="' + self.url_for(path) + '" class="' + className + '-link">' + self.__('menu.' + title) + '</a>';
   });
@@ -139,9 +159,6 @@ hexo.extend.helper.register('lunr_index', function(data) {
 hexo.extend.helper.register('canonical_path_for_nav', function() {
   var path = this.page.canonical_path;
 
-  if (startsWith(path, 'docs/') || startsWith(path, 'api/')) {
-    return path;
-  }
   return '';
 
 });

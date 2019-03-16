@@ -6,11 +6,11 @@
   function changeLang() {
     var lang = this.value;
     var canonical = this.dataset.canonical;
-    if (lang === 'zh-cn') lang = '';
-    if (lang) lang += '/';
+    var path = '/';
+    if (lang !== 'zh-cn') path += lang + '/';
 
-	Cookies.set('nf_lang', lang, { expires: 365 });
-    location.href = '/' + lang + canonical;
+    Cookies.set('nf_lang', lang, { expires: 365 });
+    location.href = path + canonical;
   }
 
   document.getElementById('lang-select').addEventListener('change', changeLang);

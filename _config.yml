@@ -4,16 +4,13 @@ description: "一起学习，一起进步."
 author: Zhu Yanlei
 language: zh-cn
 timezone: UTC
+
 url: https://ant-sir.github.io/
 root: /
-permalink: news/:year/:month/:day/:title/
-archive_dir: news
+permalink: :year/:month/:day/:title/
 code_dir: downloads/code
 new_post_name: :year-:month-:day-:title.md # File name of new posts
 post_asset_folder: true
-highlight:
-  enable: true
-  line_number: false
 per_page: 0
 
 theme: navy
@@ -21,11 +18,12 @@ deploy:
   type: git
   repo: git@github.com:ant-sir/ant-sir.github.io.git
 
+highlight:
+  enable: true
+  line_number: false
+
 disqus_shortname: antsir
 google_analytics: UA-61377615-1
-algolia:
-  zh-cn:
-    api_key: 67a88d44602c73798fc38f7269ef7053
-    index_name: iopencloud
+
 weibo: 5301170870
 github: ant-sir/site

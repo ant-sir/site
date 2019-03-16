@@ -1,14 +1,9 @@
 menu:
   main: 主页
-  docs: 文档
-  api: 笔记
-  news: 动态
-  plugins: 项目
-  themes: 图片
+  categories: 分类
+  archives: 归档
+  about: 关于
   search: 搜索
-
-index:
-  get_started: 开始使用
 
 page:
   contents: 目录
@@ -18,18 +13,3 @@ page:
   next: 下一页
   last_updated: 上次更新：%s
 
-sidebar:
-  docs:
-    getting_started: 开始使用
-    welcome: 欢迎
-    tools_usage: 工具使用
-    google_repo: google repo
-    cmake_usage: cmake
-  api:
-    core: 基础
-    overview: 自我休养笔记
-    language: 语言
-    learnpython: Python笔记
-    tools: 工具
-    learngit: Git学习笔记
-    learnvim: VIM学习笔记

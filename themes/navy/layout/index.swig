@@ -12,18 +12,18 @@
   <div class="wrapper">
     <div class="inner">
       <div id="cd-timeline">
-        {% for page in site.pages.toArray() %}
-          {% if page.layout == 'page' %}
-          <div class="cd-timeline-block">
-            <div class="cd-timeline-img cd-picture">
+        {% for post in site.posts.sort('date', 'desc') %}
+          {% if loop.index <= 5 %}
+            <div class="cd-timeline-block">
+              <div class="cd-timeline-img cd-picture"></div>
+              <div class="cd-timeline-content">
+                <a href="{{ url_for(post.path) }}">
+                  <h2>{{post.title}}</h2>
+                  <p>{{post.excerpt}}</p>
+                </a>
+                <span class="cd-date">{{time_tag(post.date)}}</span>
+              </div>
             </div>
-            <div class="cd-timeline-content">
-            <h2>{{page.title}}</h2>
-            <p>{{page.excerpt}}</p>
-            <a href="{{ url_for(page.path) }}" class="cd-read-more" target="_blank">阅读全文</a>
-            <span class="cd-date">{{page.updated.format('MMMM Do YYYY, h:mm:ss a')}}</span>
-            </div>
-          </div>
           {% endif %}
         {% endfor %}
       </div>
