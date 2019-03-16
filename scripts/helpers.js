@@ -28,11 +28,10 @@ hexo.extend.helper.register('page_nav', function() {
     list[self.url_for(post.path)] = post.title;
   });
 
-  console.log(list);
   var keys = Object.keys(list);
   var index = keys.indexOf(path);
   var result = '';
-  console.log(keys, path, index);
+
   if (index > 0) {
     result += '<a href="' + keys[index - 1] + '" class="article-footer-prev" title="' + this.__(prefix + list[keys[index - 1]]) + '">'
       + '<i class="fa fa-chevron-left"></i><span>' + this.__('page.prev') + '</span></a>';
