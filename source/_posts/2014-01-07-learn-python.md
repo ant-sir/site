@@ -1,6 +1,6 @@
 ---
 title: Python笔记
-date: 2014-05-07
+date: 2014-01-07
 categories:
   - 学习笔记
 tags:

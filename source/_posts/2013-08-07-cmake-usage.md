@@ -1,6 +1,6 @@
 ---
 title: CMAKE使用
-date: 2014-03-07
+date: 2013-08-07
 categories:
   - 工具使用
 tags:

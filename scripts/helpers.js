@@ -5,7 +5,6 @@
 var pathFn = require('path');
 var _ = require('lodash');
 var cheerio = require('cheerio');
-var lunr = require('lunr');
 
 
 function startsWith(str, start) {
@@ -138,21 +137,6 @@ hexo.extend.helper.register('page_anchor', function(str) {
   });
 
   return $.html();
-});
-
-hexo.extend.helper.register('lunr_index', function(data) {
-  var index = lunr(function() {
-    this.field('name', {boost: 10});
-    this.field('tags', {boost: 50});
-    this.field('description');
-    this.ref('id');
-
-    _.sortBy(data, 'name').forEach((item, i) => {
-      this.add(_.assign({ id: i }, item));
-    });
-  });
-
-  return JSON.stringify(index);
 });
 
 hexo.extend.helper.register('canonical_path_for_nav', function() {
