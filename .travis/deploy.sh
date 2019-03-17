@@ -10,8 +10,8 @@ ssh-add ~/.ssh/id_rsa
 # Copy SSH config
 cp .travis/ssh_config ~/.ssh/config
 # Set Git config
-git config --global user.name "zhuyanlei"
-git config --global user.email zhuyanlei@iopencloud.com
+git config --global user.name "Zhu.Yanlei"
+git config --global user.email zhuyanleigm@gmail.com
 # Clone the repository
 git clone git@github.com:ant-sir/ant-sir.github.io.git .deploy_git
 # Deploy to GitHub
