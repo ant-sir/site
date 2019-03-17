@@ -22,6 +22,12 @@ highlight:
   enable: true
   line_number: false
 
+algolia:
+  zh-cn:
+    app_id: 'IKDE0Z5WJI'
+    api_key: '36fb45dc14ef77aa8bdf5b2dbf75c87f'
+    index_name: 'hexo-search'
+
 disqus_shortname: antsir
 google_analytics: UA-61377615-1
 
