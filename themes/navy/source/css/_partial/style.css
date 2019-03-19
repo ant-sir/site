@@ -164,7 +164,6 @@
   overflow: hidden;
   background: #212121;
   height: auto;
-  max-height: 630px;
   color: #E0E0E0;
   transition: all 0.5s ease-in-out;
 }
@@ -194,7 +193,7 @@
   padding: 8px 0px;
 }
 .github-badge .commits .entry .item {
-  padding: 8px 0px;
+  padding: 0px 0px;
   min-height: 16px;
 }
 .github-badge .commits .entry .item .icon {
@@ -202,10 +201,10 @@
   transform: scale(1);
   float: left;
   width: 64px;
-  padding: 0px 24px;
+  padding: 6px 24px;
 }
 .github-badge .commits .entry .item .icon .octicon {
-  padding: 0px 1px;
+  padding: 3px 1px;
   position: absolute;
 }
 .github-badge .commits .entry .item .icon .circle {
@@ -214,7 +213,7 @@
   border-radius: 50%;
   background-clip: border-box;
   left: 21px;
-  margin-top: -3px;
+  margin-top: 0px;
   width: 22px;
   height: 22px;
 }
@@ -273,7 +272,7 @@
   transform: translateX(0%);
   opacity: 0.5;
   margin-left: 64px;
-  padding: 0px;
+  padding: 3px;
 }
 .github-badge .commits .entry .item .text.active {
   opacity: 0.9;
