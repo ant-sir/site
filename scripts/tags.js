@@ -73,7 +73,7 @@ hexo.extend.tag.register('gitlog', function(args) {
                   '<div class="circle"></div> <span class="octicon octicon-history"></span>',
                 '</div>',
                 '<div class="status">',
-                  '<span>' + item[0] + ' </span><a href="https://github.com/' + user + '/' + repo + '/commit/' + item[1] + '" target="_blank" class="commit-link" title="' + item[2] + '">' + item[1] + '</a> <span>: ' + item[2] + '</span>',
+                  '<span>' + item[0] + '  </span><a href="https://github.com/' + user + '/' + repo + '/commit/' + item[1] + '" target="_blank" class="commit-link" title="' + item[2] + '">' + item[1] + '</a> <span>  ： ' + item[2] + '</span>',
                 '</div>',
               '</div>'
   ];
@@ -92,7 +92,7 @@ hexo.extend.tag.register('gitlog', function(args) {
                           '<div class="circle"></div> <span class="octicon octicon-code"></span>',
                       '</div>',
                       '<div class="text">',
-                        '<span>' + item[0] + ' </span><a href="https://github.com/' + user + '/' + repo + '/commit/' + item[1] + '" target="_blank" class="commit-link" title="' + item[2] + '">' + item[1] + '</a> <span>: ' + item[2] + '</span>',
+                        '<span>' + item[0] + '  </span><a href="https://github.com/' + user + '/' + repo + '/commit/' + item[1] + '" target="_blank" class="commit-link" title="' + item[2] + '">' + item[1] + '</a> <span>  ： ' + item[2] + '</span>',
                     '</div>']);
   });
 
