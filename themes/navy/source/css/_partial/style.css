@@ -164,7 +164,7 @@
   overflow: hidden;
   background: #212121;
   height: auto;
-  max-height: 256px;
+  max-height: 630px;
   color: #E0E0E0;
   transition: all 0.5s ease-in-out;
 }
@@ -194,7 +194,6 @@
   padding: 8px 0px;
 }
 .github-badge .commits .entry .item {
-  line-height: 16px;
   padding: 8px 0px;
   min-height: 16px;
 }
