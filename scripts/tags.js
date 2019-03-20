@@ -31,6 +31,7 @@ hexo.extend.tag.register('gitlog', function(args) {
   var log_end = [];
   var items = [];
   var item = [];
+  var script = [];
   var result = '';
   
   var user = args[0];
@@ -65,7 +66,7 @@ hexo.extend.tag.register('gitlog', function(args) {
               '</div>'
   ];
 
-  console.log(items);
+  // console.log(items);
   item = items.shift().split(' ');
 
   info = [    '<div class="info">',
@@ -78,28 +79,34 @@ hexo.extend.tag.register('gitlog', function(args) {
               '</div>'
   ];
 
+  var commit_style = 'commits';
+
+  if (autoExpand === false) {
+    commit_style += '  fold';
+  }
+
   log_start = [
-              '<div class="commits">',
+              '<div class="' + commit_style + '">',
                 '<div class="line"></div>',
-                  '<div class="entry">'
+                '<div class="entry">'
   ];
 
   items.forEach(element => {
     item = element.split(' ');
     log = log.concat([
-                    '<div class="item commit-before">',
-                      '<div class="icon">',
-                          '<div class="circle"></div> <span class="octicon octicon-code"></span>',
-                      '</div>',
-                      '<div class="text">',
-                        '<span>' + item[0] + '  </span><a href="https://github.com/' + user + '/' + repo + '/commit/' + item[1] + '" target="_blank" class="commit-link" title="' + item[2] + '">' + item[1] + '</a> <span>  ： ' + item[2] + '</span>',
-                    '</div>']);
+                  '<div class="item commit-before">',
+                    '<div class="icon">',
+                        '<div class="circle"></div> <span class="octicon octicon-code"></span>',
+                    '</div>',
+                    '<div class="text">',
+                      '<span>' + item[0] + '  </span><a href="https://github.com/' + user + '/' + repo + '/commit/' + item[1] + '" target="_blank" class="commit-link" title="' + item[2] + '">' + item[1] + '</a> <span>  ： ' + item[2] + '</span>',
+                    '</div>',
+                  '</div>']);
   });
 
   log_end = [
                   '</div>',
-                '</div>',
-              '</div>'
+                '</div>'
   ];
 
   badge_end = [
@@ -107,7 +114,51 @@ hexo.extend.tag.register('gitlog', function(args) {
           '</div>'
   ];
 
-  result = badge.join('') + header.join('') + info.join('') + log_start.join('') + log.join('') + log_end.join('') + badge_end.join('');
+  script = [
+    '<script>',
+    'var badge = document.getElementById("badge-container");',
+    'var user = badge.querySelector(".user");',
+    'var info = badge.querySelector(".info");',
+    'var items = badge.querySelectorAll(".item.commit-before");',
+
+    'user.addEventListener("mouseover", function() {',
+      'var className = badge.querySelector(".avatar").className;',
+      'badge.querySelector(".avatar").className = className === "avatar" ? "avatar show" : "avatar";',
+      'badge.querySelector(".icon>span").className = className === "avatar" ? "mega-octicon octicon-mark-github back" : "mega-octicon octicon-mark-github";',
+    '});',
+
+    'user.addEventListener("mouseout", function() {',
+      'var className = badge.querySelector(".avatar").className;',
+      'badge.querySelector(".avatar").className = className === "avatar" ? "avatar show" : "avatar";',
+      'badge.querySelector(".icon>span").className = className === "avatar" ? "mega-octicon octicon-mark-github back" : "mega-octicon octicon-mark-github";',
+    '});',
+
+    'info.addEventListener("click", function() {',
+    'var commits = badge.querySelector(".commits");',
+    'commits.className = commits.className === "commits" ? "commits fold" : "commits";',
+    '});',
+
+    'items.forEach(function(item) {',
+      'item.addEventListener("mouseover", function() {',
+        'var circle = this.querySelector(".circle");',
+        'circle.className = circle.className === "circle" ? "circle active" : "circle";',
+        'var text = this.querySelector(".text");',
+        'text.className = text.className === "text" ? "text active" : "text";',
+        'text.style.fontSize = "105%";',
+      '});',
+
+      'item.addEventListener("mouseout", function() {',
+        'var circle = this.querySelector(".circle");',
+        'circle.className = circle.className === "circle" ? "circle active" : "circle";',
+        'var text = this.querySelector(".text");',
+        'text.className = text.className === "text" ? "text active" : "text";',
+        'text.style.fontSize = "100%";',
+      '});',
+    '});',
+    '</script>'
+  ];
+
+  result = badge.join('') + header.join('') + info.join('') + log_start.join('') + log.join('') + log_end.join('') + badge_end.join('') + script.join('');
   
   return result;
 }, true);
