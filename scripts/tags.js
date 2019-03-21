@@ -96,7 +96,7 @@ hexo.extend.tag.register('gitlog', function(args) {
     log = log.concat([
                   '<div class="item commit-before">',
                     '<div class="icon">',
-                        '<div class="circle"></div> <span class="octicon octicon-code"></span>',
+                        '<div class="circle"></div> <span class="octicon"><img src="/octicons/code.svg"></span>',
                     '</div>',
                     '<div class="text">',
                       '<span>' + item[0] + '  </span><a href="https://github.com/' + user + '/' + repo + '/commit/' + item[1] + '" target="_blank" class="commit-link" title="' + item[2] + '">' + item[1] + '</a> <span>  ： ' + item[2] + '</span>',
