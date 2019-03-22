@@ -14,7 +14,6 @@
     "child_process": "^1.0.2",
     "hexo": "github:hexojs/hexo",
     "hexo-deployer-git": "^1.0.0",
-    "hexo-generator-feed": "^1.1.0",
     "hexo-generator-sitemap": "^1.1.2",
     "hexo-renderer-marked": "^0.3.2",
     "hexo-renderer-stylus": "^0.3.1",
