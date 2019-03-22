@@ -6,6 +6,8 @@
     </div>
     <div id="footer-links">
       <a href="http://weibo.com/{{ config.weibo }}" class="footer-link" target="_blank"><i class="fa fa-weibo"></i></a>
+      <a href="https://github.com/{{ config.github }}" class="footer-link" target="_blank"> <i class="fa fa-weixin" aria-hidden="true"></i></a>
+      <a href="https://github.com/{{ config.github }}" class="footer-link" target="_blank"> <i class="fa fa-qq" aria-hidden="true"></i></a>
       <a href="https://github.com/{{ config.github }}" class="footer-link" target="_blank"><i class="fa fa-github-alt"></i></a>
     </div>
   </div>
