@@ -24,10 +24,7 @@ git clone https://github.com/algolia/docsearch-scraper.git
 git clone git@github.com:ant-sir/site-search-config.git
 cd docsearch-scraper/
 pipenv install
-pipenv shell
-export APPLICATION_ID=IKDE0Z5WJI
-export API_KEY=79c95c636b06d0d69e8882863b9355ac
-./docsearch run ~/site-search-config/config.json
+pipenv shell "export APPLICATION_ID=IKDE0Z5WJI && export API_KEY=79c95c636b06d0d69e8882863b9355ac && ./docsearch run ~/site-search-config/config.json && exit"
 
 cd ~/site-search-config
 git commit -m "update config" config.json
