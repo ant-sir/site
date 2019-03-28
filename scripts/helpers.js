@@ -86,6 +86,35 @@ hexo.extend.helper.register('categories_sidebar', function(className) {
   return result;
 });
 
+hexo.extend.helper.register('tags_sidebar', function(className) {
+  var path = pathFn.dirname(this.path);
+  var result = '';
+  var self = this;
+  var tags = new Map();
+  var path_r = this.page.path;
+
+  _.each(this.site.tags.data, function(tag){
+    tags.set(tag.name, '<strong class="' + className + '-title">' + tag.name.toUpperCase() + '</strong>');
+  });
+
+  _.each(this.site.posts.data, function(post){
+    var itemClass = className + '-link';
+    if (post.path.slice(0, -1) === path) itemClass += ' current';
+
+    _.each(post.tags.data, function(tag){
+      var value = tags.get(tag.name);
+      value += '<a href="' + self.url_for(post.path) + '" class="' + itemClass + '">' + post.title + '</a>';
+      tags.set(tag.name, value);
+    });
+  });
+
+  for (var tag of tags.values()) {
+    result += tag;
+  }
+  
+  return result;
+});
+
 hexo.extend.helper.register('header_menu', function(className) {
   var menu = this.site.data.menu;
   var result = '';

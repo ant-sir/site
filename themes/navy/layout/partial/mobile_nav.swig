@@ -8,6 +8,7 @@
     </ul>
     {% if page.layout == 'post' %}
       {{ categories_sidebar('mobile-nav') }}
+      {{ tags_sidebar('mobile-nav') }}
     {% endif %}
   </div>
   <div id="mobile-lang-select-wrap">
