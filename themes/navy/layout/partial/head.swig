@@ -6,7 +6,7 @@
   <!-- Canonical links -->
   <link rel="canonical" href="{{ url }}">
   {% if page.layout == 'index' %}
-    <meta name="baidu-site-verification" content="j1ut28SiQF" />
+    <meta name="baidu-site-verification" content="i2m2cCo0T4" />
   {% endif %}
   <!-- Alternative links -->
   {% if page.layout == 'page' or page.layout == 'index' %}
