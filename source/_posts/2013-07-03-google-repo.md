@@ -123,7 +123,7 @@ $ repo sync
 如果你需要通过代理来下载源码，你需要提供以下环境变更给Repo。
 ```bash
 $ export HTTP_PROXY=http://<proxy_user_id>:<proxy_password>@<proxy_server>:<proxy_port>
-$ export HTTPS_PROXY=http://<proxy_user_id>:<proxy_password>@<proxy_server>:<proxy_port>
+$ export HTTPS_PROXY=https://<proxy_user_id>:<proxy_password>@<proxy_server>:<proxy_port>
 ```
 
 ## 制作地本镜像库

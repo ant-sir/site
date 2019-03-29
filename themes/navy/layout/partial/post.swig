@@ -1,4 +1,4 @@
-<article class="article post" itemscope itemtype="http://schema.org/Article">
+<article class="article post" itemscope itemtype="https://schema.org/Article">
   <header class="article-header">
     {% if is_post() %}
       <h1 class="article-title" itemprop="name">{{ post.title }}</h1>

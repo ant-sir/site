@@ -1,7 +1,7 @@
 <div id="content-wrap">
   <div id="content" class="wrapper">
     <div id="content-inner">
-      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+      <article class="article-container" itemscope itemtype="https://schema.org/Article">
         <div class="article-inner">
           <div class="article">
             <div class="inner">
