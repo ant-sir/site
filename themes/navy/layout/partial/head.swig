@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Canonical links -->
   <link rel="canonical" href="{{ url }}">
+  {% if page.layout == 'index' %}
+    <meta name="baidu-site-verification" content="j1ut28SiQF" />
+  {% endif %}
   <!-- Alternative links -->
   {% if page.layout == 'page' or page.layout == 'index' %}
     {% for lang in site.data.languages %}
