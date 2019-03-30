@@ -5,7 +5,7 @@ author: Zhu Yanlei
 language: zh-cn
 timezone: UTC
 
-url: https://ant-sir.github.io/
+url: https://ant-sir.club/
 root: /
 permalink: :year/:month/:day/:title/
 code_dir: downloads/code
