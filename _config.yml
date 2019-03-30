@@ -16,9 +16,7 @@ per_page: 0
 theme: navy
 deploy:
   type: git
-  repo: 
-    github: git@github.com:ant-sir/ant-sir.github.io.git
-    coding: git@git.dev.tencent.com:antsir/ant-sir.git
+  repo: git@github.com:ant-sir/ant-sir.github.io.git
   branch: master
 
 highlight:
