@@ -16,7 +16,9 @@ per_page: 0
 theme: navy
 deploy:
   type: git
-  repo: git@github.com:ant-sir/ant-sir.github.io.git
+  repo:
+    github: git@github.com:ant-sir/ant-sir.github.io.git
+    aws: ubuntu@ec2-52-192-82-68.ap-northeast-1.compute.amazonaws.com:/home/ubuntu/www/site.git
   branch: master
 
 highlight:
