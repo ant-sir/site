@@ -25,7 +25,7 @@ git clone git@github.com:ant-sir/site-search-config.git
 cd docsearch-scraper/
 cp -rf ~/site-search-config/.env .
 pipenv install
-pipenv shell "./docsearch run ~/site-search-config/config.json && exit"
+pipenv shell "./docsearch run ~/site-search-config/config.json; exit"
 
 cd ~/site-search-config
 git commit -m "update config" config.json
