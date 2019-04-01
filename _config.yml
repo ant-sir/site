@@ -15,11 +15,13 @@ per_page: 0
 
 theme: navy
 deploy:
-  type: git
-  repo:
-    github: git@github.com:ant-sir/ant-sir.github.io.git
-    aws: ubuntu@ec2-52-192-82-68.ap-northeast-1.compute.amazonaws.com:/home/ubuntu/www/site.git
-  branch: master
+  - type: git
+    repo:
+      github: git@github.com:ant-sir/ant-sir.github.io.git
+      aws: ubuntu@ec2-52-192-82-68.ap-northeast-1.compute.amazonaws.com:/home/ubuntu/www/site.git
+    branch: master
+  - type: baidu_url_submitter
+  - type: baidu_xz_url_submitter
 
 highlight:
   enable: true
@@ -30,6 +32,15 @@ algolia:
     app_id: 'IKDE0Z5WJI'
     api_key: '36fb45dc14ef77aa8bdf5b2dbf75c87f'
     index_name: 'hexo-search'
+
+baidu_url_submit:
+  count: 10
+  host: ant-sir.xyz
+  token: 4YLPx7RSN2tAKtt3
+  path: baidu_urls.txt
+  xz_appid: '1629432194112957'
+  xz_token: 'nguFyfGTWLiVgPSw'
+  xz_count: 10
 
 disqus_shortname: antsir
 google_analytics: UA-61377615-1

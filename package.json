@@ -13,6 +13,7 @@
     "cheerio": "^0.22.0",
     "child_process": "^1.0.2",
     "hexo": "github:hexojs/hexo",
+    "hexo-baidu-url-submit": "0.0.6",
     "hexo-deployer-git": "^1.0.0",
     "hexo-generator-baidu-sitemap": "^0.1.6",
     "hexo-generator-sitemap": "^1.1.2",
