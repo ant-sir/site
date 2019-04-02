@@ -6,7 +6,7 @@
   <!-- Canonical links -->
   <link rel="canonical" href="{{ url }}">
   {% if page.layout == 'index' %}
-    <meta name="baidu-site-verification" content="pZMLub5wgU" />
+    <meta name="baidu-site-verification" content="4ZhfSdx4D2" />
   {% endif %}
   <!-- Alternative links -->
   {% if page.layout == 'page' or page.layout == 'index' %}
@@ -43,7 +43,13 @@
   <script>
   (function(){
       var bp = document.createElement('script');
-      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(bp, s);
   })();
