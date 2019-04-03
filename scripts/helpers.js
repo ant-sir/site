@@ -55,10 +55,10 @@ hexo.extend.helper.register('categories_sidebar', function(className) {
     if (pathFn.dirname(page.path) === 'categories') {
       var welcome = '<strong class="' + className + '-title">' + page.title + '</strong>';
       if (pathFn.dirname(path_r) === path) {
-        welcome += '<a href="' + '/categories' + '" class="' + className + '-link' + ' current' + '">' + page.title + '</a>';
+        welcome += '<a href="' + self.url_for('/categories') + '" class="' + className + '-link' + ' current' + '">' + page.title + '</a>';
       }
       else {
-        welcome += '<a href="' + '/categories' + '" class="' + className + '-link' + '">' + page.title + '</a>';
+        welcome += '<a href="' + self.url_for('/categories') + '" class="' + className + '-link' + '">' + page.title + '</a>';
       }
       categories.set(page.title, welcome);
     }
