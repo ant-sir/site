@@ -1,12 +1,12 @@
 ---
-title: Python笔记
+title: Python学习笔记
 date: 2014-01-07
 categories:
   - 学习笔记
 tags:
   - python
 ---
-这里主要记录一些Python的读书笔记，以及在使用Python中的一些经验总结。记录一下，以方便忘记的时候查阅。
+主要记录一些Python的读书笔记，以及在使用Python中的一些经验总结。记录一下，以方便忘记的时候查阅。
 <!--more-->
 
 ## UNIX env查找

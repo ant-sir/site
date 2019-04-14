@@ -1,14 +1,15 @@
 ---
-title: CMAKE使用
+title: cmake学习笔记
 date: 2013-08-07
 categories:
   - 工具使用
 tags:
   - cmake
 ---
-使用CMake很简单，通过在每个目录下创建一个或多个CMakeLists文件来编译进程处理整个项目。CMakeLists文件包含CMake语言对项目的描述，CMake语言由一系列的命令组成。
+cmake是一个相对更高级一点的编译系统。它类似qmake，有比gnu make更简洁易懂的语法。
 <!--more-->
 
+使用CMake很简单，通过在每个目录下创建一个或多个CMakeLists文件来编译进程处理整个项目。CMakeLists文件包含CMake语言对项目的描述，CMake语言由一系列的命令组成。
 这些命令的形式如下：
 ```cmake
 command (args...)
