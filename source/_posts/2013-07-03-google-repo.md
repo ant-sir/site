@@ -1,10 +1,8 @@
 ---
 title: repo工具学习笔记
 date: 2013-07-03
-categories:
-  - 工具使用
-tags:
-  - repo
+categories: 工具使用
+tags: repo
 ---
 repo是Google用来管理Android源代码的工具，但是它具休非常好的通用性，只要创建自己的manifest文件，即可用来管理自己的项目。
 <!--more-->

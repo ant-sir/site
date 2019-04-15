@@ -1,10 +1,8 @@
 ---
 title: cmake学习笔记
 date: 2013-08-07
-categories:
-  - 工具使用
-tags:
-  - cmake
+categories: 工具使用
+tags: cmake
 ---
 cmake是一个相对更高级一点的编译系统。它类似qmake，有比gnu make更简洁易懂的语法。
 <!--more-->

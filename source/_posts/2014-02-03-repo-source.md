@@ -1,10 +1,8 @@
 ---
 title: repo实现学习笔记
 date: 20134-02-03
-categories:
-  - 工具使用
-tags:
-  - repo
+categories: 工具使用
+tags: repo
 ---
 通过分析repo的源码实现，更好的了解工具的操作，以及对自己实际项目的针对性修改。
 <!--more-->
