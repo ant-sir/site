@@ -1,6 +1,6 @@
 ---
 title: repo实现学习笔记
-date: 20134-02-03
+date: 2013-02-03
 categories: 工具使用
 tags: repo
 ---
