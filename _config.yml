@@ -34,13 +34,13 @@ algolia:
     index_name: 'hexo-search'
 
 baidu_url_submit:
-  count: 10
+  count: 1
   host: ant-sir.xyz
   token: 4YLPx7RSN2tAKtt3
   path: baidu_urls.txt
   xz_appid: '1629432194112957'
   xz_token: 'nguFyfGTWLiVgPSw'
-  xz_count: 10
+  xz_count: 1
 
 disqus_shortname: antsir
 google_analytics: UA-61377615-1
