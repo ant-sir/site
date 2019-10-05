@@ -1,0 +1,10 @@
+docs:
+  getting_started:
+    welcome: index.html
+  tools_usage:
+    google_repo: google-repo.html
+    cmake_usage: cmake-usage.html
+api:
+  core:
+    overview: index.html
+    learnpython: learnpython.html
