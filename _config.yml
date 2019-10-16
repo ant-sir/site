@@ -18,7 +18,7 @@ deploy:
   - type: git
     repo:
       github: git@github.com:ant-sir/ant-sir.github.io.git
-      aws: ubuntu@ec2-52-192-82-68.ap-northeast-1.compute.amazonaws.com:/home/ubuntu/www/site.git
+      aws: ubuntu@ec2-13-112-109-13.ap-northeast-1.compute.amazonaws.com:/home/ubuntu/www/site.git
     branch: master
   - type: baidu_url_submitter
   - type: baidu_xz_url_submitter
